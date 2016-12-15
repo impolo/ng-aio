@@ -4,5 +4,6 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  service_url: "http://8.41.42.131:6040/NmcServerS/nmc-server/post/"
 };
