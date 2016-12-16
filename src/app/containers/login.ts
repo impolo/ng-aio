@@ -52,11 +52,11 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder, private ds: NmcService, private router: Router, private snackBar: MdSnackBar) {
     this.loginForm = formBuilder.group({
-        'email': ['', [
-          Validators.required,
-          Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-        ]],
-        'password': ['', Validators.required]
+      'email': ['', [
+        Validators.required,
+        Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+      ]],
+      'password': ['', Validators.required]
 
     });
   }
@@ -66,17 +66,20 @@ export class LoginComponent {
       this.loading = true;
 
       this.ds.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value)
-        .subscribe((data) => {
-
-          if (data instanceof UserError) {
-            this.snackBar.open(data.errorMessage);
-          } else {
-            localStorage.setItem("currentUser", JSON.stringify(data))
-            this.router.navigate(["/user"])
-          }
-          this.loading = false
-        })
-
+        .subscribe(
+          data => {
+            if (data instanceof UserError) {
+              this.snackBar.open(data.errorMessage);
+            } else {
+              localStorage.setItem("currentUser", JSON.stringify(data))
+              this.router.navigate(["/user"])
+            }
+            this.loading = false
+          },
+          error => {
+            this.snackBar.open(error)
+            this.loading = false
+          })
     }
   }
 
