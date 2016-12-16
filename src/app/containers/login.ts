@@ -30,7 +30,7 @@ import {MdSnackBar} from "@angular/material";
         </md-card-content>
         
         <md-card-content>
-          <button md-raised-button color="primary" >
+          <button md-raised-button color="primary" [disabled]="!loginForm.valid" >
             Login
           </button>
         </md-card-content>
