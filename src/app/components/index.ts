@@ -7,11 +7,13 @@ import { RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout';
 import { ToolbarComponent } from './toolbar';
 import {LoginComponent} from "../containers/login";
+import {SpinnerComponent} from "./spinner";
 
 export const COMPONENTS = [
   LayoutComponent,
   ToolbarComponent,
-  LoginComponent
+  LoginComponent,
+  SpinnerComponent
 ];
 
 

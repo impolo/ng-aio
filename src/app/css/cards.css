@@ -10,6 +10,7 @@ md-input {
 
 md-card {
   margin: 15px;
+  align-content: center;
 }
 
 md-card-spinner {

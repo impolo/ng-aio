@@ -8,13 +8,14 @@ import {Observable} from "rxjs";
 import {Param} from "../models/param";
 import {Extractors} from "./extractors";
 import {User} from "../models/user";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 
 @Injectable()
 export class NmcService {
 
   //temporally
-  API_PATH = "http://8.41.42.131:6040/NmcServerS/nmc-server/post/"
+  API_PATH = "https://8.41.42.131:6043/NmcServerS/nmc-server/post/"
 
   constructor(private http: Http) {
   }
@@ -28,7 +29,11 @@ export class NmcService {
 
   }
 
-  login(email: string, password: string): Observable<User> {
+  login(email: string, password: string): Observable<User[]> {
+
+    return this.call<User>([this.operations.login(email, this.toHex(password))],  Extractors.user)
+
+    /*
     let nmcRequest = new NmcRequest()
     nmcRequest.OPTLST.push(this.operations.login(email, this.toHex(password)))
 
@@ -36,12 +41,29 @@ export class NmcService {
       .map(res => {
         return this.ok(res.json().RESULT[0]) ?
           Extractors.user(res.json().RESULT[0].RESULT): Extractors.userError(res.json().RESULT[0]["44"]) })
+          */
+
+  }
+
+  getCountries() {
 
   }
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   operations = new NmcOperations()
+
+
+  public call<T>(options: any[], extractor: (any)): Observable<T[]>   {
+
+    let nmcRequest = new NmcRequest()
+    options.forEach(option => nmcRequest.OPTLST.push(option))
+
+    return this.http.post(this.API_PATH, this.body(nmcRequest), this.headers)
+      .map(res => {
+        return this.ok(res.json().RESULT[0]) ?
+          extractor(res.json().RESULT[0].RESULT): Observable.throw(res.json().RESULT[0]["44"]) })
+  }
 
   public body(body: NmcRequest): any {
     return window.btoa(JSON.stringify(body))

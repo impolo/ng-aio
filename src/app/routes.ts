@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { NotFoundPageComponent } from './containers/not-found-page';
 import {LoginComponent} from "./containers/login";
 import {UnavailableComponent} from "./containers/unavailable";
-import {UserInfoComponent} from "./containers/user-info";
+import {NmcStoreInfoComponent} from "./containers/store-info";
 import {AuthGuard} from "./guards/auth.guard";
 
 export const routes: Routes = [
@@ -12,8 +12,8 @@ export const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'user',
-    component: UserInfoComponent,
+    path: 'storeInfo',
+    component: NmcStoreInfoComponent,
     canActivate: [AuthGuard]
   },
   {

@@ -16,10 +16,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    /*
+/*
      this.ds.getParams()
      .subscribe(
-     (data) => console.log(data))*/
+     (data) => console.log(data)) */
   }
 
 

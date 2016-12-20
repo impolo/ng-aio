@@ -4,8 +4,8 @@ import {NgForm, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {VALID} from "@angular/forms/src/model";
 import {NmcService} from "../services/nmc_service";
 import {Router} from "@angular/router";
-import {UserError} from "../models/user_error";
 import {MdSnackBar} from "@angular/material";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 
 @Component({
@@ -13,20 +13,21 @@ import {MdSnackBar} from "@angular/material";
   styleUrls: ['../css/cards.css'],
   template: `
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <section class="form-block">
       <md-card>
         <md-card-title>Please login</md-card-title>
  
         <md-card-content>
-          <md-input placeholder="Email" type="email" 
+          <input placeholder="Email" type="email"  size="45"  
              name="email"
-             id="email"
+             type="email"
              formControlName="email"
-             ></md-input>
+             >
         </md-card-content>
         <md-card-content>
-          <md-input placeholder="Password" type="password"              
-             id="password"
-             formControlName="password"></md-input>
+          <input placeholder="Password" type="password"  size="45"              
+             type="password"
+             formControlName="password">
         </md-card-content>
         
         <md-card-content>
@@ -35,9 +36,10 @@ import {MdSnackBar} from "@angular/material";
           </button>
         </md-card-content>
          <md-card-content>
-          <md-progress-circle *ngIf="loading" mode="indeterminate"></md-progress-circle>
+           <nmc-spinner [visible]=loading > </nmc-spinner>
         </md-card-content>
       </md-card>
+      </section>
    </form>  `,
   providers: [NmcService, MdSnackBar]
 
@@ -45,9 +47,6 @@ import {MdSnackBar} from "@angular/material";
 export class LoginComponent {
 
   loading = false
-  loginError = false
-  loginErrorMsg = ""
-
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private ds: NmcService, private router: Router, private snackBar: MdSnackBar) {
@@ -68,18 +67,20 @@ export class LoginComponent {
       this.ds.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value)
         .subscribe(
           data => {
-            if (data instanceof UserError) {
-              this.snackBar.open(data.errorMessage);
-            } else {
-              localStorage.setItem("currentUser", JSON.stringify(data))
-              this.router.navigate(["/user"])
+            if (data instanceof ErrorObservable) {
+              this.snackBar.open(data.error)
+              this.loading = false
+              return
             }
+            localStorage.setItem("currentUser", JSON.stringify(data))
+            this.router.navigate(["/storeInfo"])
             this.loading = false
           },
           error => {
             this.snackBar.open(error)
             this.loading = false
           })
+
     }
   }
 

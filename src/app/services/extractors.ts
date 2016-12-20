@@ -1,6 +1,5 @@
 import {Param} from "../models/param";
 import {User} from "../models/user";
-import {UserError} from "../models/user_error";
 export class Extractors {
 
   static param(objects: any[]): Param[] {
@@ -16,9 +15,4 @@ export class Extractors {
       return user
     })[0]
   }
-
-  static userError(msg): UserError {
-    return new UserError(msg)
-  }
-
 }

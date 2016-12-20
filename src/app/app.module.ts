@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
@@ -11,15 +11,16 @@ import { routes } from './routes';
 import {RouterModule} from "@angular/router";
 import {NotFoundPageComponent} from "./containers/not-found-page";
 import {UnavailableComponent} from "./containers/unavailable";
-import {UserInfoComponent} from "./containers/user-info";
+import {NmcStoreInfoComponent} from "./containers/store-info";
 import {AuthGuard} from "./guards/auth.guard";
+import {ClarityModule} from "clarity-angular";
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundPageComponent,
     UnavailableComponent,
-    UserInfoComponent
+    NmcStoreInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -27,9 +28,13 @@ import {AuthGuard} from "./guards/auth.guard";
     ComponentsModule,
     MaterialModule.forRoot(),
     FormsModule,
+    ReactiveFormsModule,
+    ClarityModule,
     RouterModule.forRoot(routes)
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

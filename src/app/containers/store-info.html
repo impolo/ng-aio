@@ -1,0 +1,61 @@
+<form [formGroup]="storeForm" (ngSubmit)="onSubmit()">
+  <section class="form-block">
+    <md-card>
+      <md-card-title>Store information, step 1 of 6</md-card-title>
+
+      <md-card-content>
+        <input placeholder="Store name" size="45"
+               type="text"
+               id="storeName"
+               formControlName="storeName"
+        >
+      </md-card-content>
+
+      <md-card-content>
+        <input placeholder="Billing address 1" size="45"
+               type="text"
+               id="addr1"
+               formControlName="addr1"
+        >
+      </md-card-content>
+
+      <md-card-content>
+        <input placeholder="Billing address 2" size="45"
+               type="text"
+               id="addr2"
+               formControlName="addr2"
+        >
+      </md-card-content>
+
+      <md-card-content>
+
+        <div class="select">
+          <select class="form-control" id="power" required (change)="change($event.target.value)">
+            <option *ngFor="let i of cities" [value]="i.value">{{i.name}}</option>
+          </select>
+        </div>
+        <div class="select">
+          <select class="form-control" id="power" required (change)="change($event.target.value)">
+            <option *ngFor="let i of cities" [value]="i.value">{{i.name}}</option>
+          </select>
+        </div>
+        <div class="select">
+          <select class="form-control" id="power" required (change)="change($event.target.value)">
+            <option *ngFor="let i of cities" [value]="i.value">{{i.name}}</option>
+          </select>
+        </div>
+      </md-card-content>
+
+
+      <md-card-content>
+        <button md-raised-button color="primary" [disabled]="!storeForm.valid">
+          Next
+        </button>
+      </md-card-content>
+      <md-card-content>
+        <nmc-spinner [visible]=loading></nmc-spinner>
+      </md-card-content>
+
+    </md-card>
+  </section>
+</form>
